@@ -31,10 +31,7 @@
     "laravel": {
       "providers": [
         "MinionFactory\\ModuleFactory\\ModuleServiceProvider"
-      ],
-      "aliases": {
-        "Module": "MinionFactory\\ModuleFactory\\Facades\\Module"
-      }
+      ]
     }
   },
   "minimum-stability": "dev",
