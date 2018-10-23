@@ -1,0 +1,42 @@
+{
+  "name": "minionfactory/module-factory",
+  "description": "My implementation of modules within Laravel.",
+  "type": "package",
+  "keywords": [
+    "laravel",
+    "modules",
+    "minionfactory"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Paul Warren",
+      "email": "paul@paulwarren.ca",
+      "role": "Developer",
+      "homepage": "https://paulwarren.ca"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "require-dev": {
+    "laravel/framework": "~5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "MinionFactory\\ModuleFactory\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MinionFactory\\ModuleFactory\\ModuleServiceProvider"
+      ],
+      "aliases": {
+        "Module": "MinionFactory\\ModuleFactory\\Facades\\Module"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
