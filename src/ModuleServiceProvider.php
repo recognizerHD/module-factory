@@ -11,49 +11,6 @@ class ModuleServiceProvider extends ServiceProvider
     public static $modules = null;
     private static $modulePath = '';
 
-    public static function getModules()
-    {
-        if (self::$modules !== null) {
-            return self::$modules;
-        }
-        self::$modules = [];
-
-        self::$modulePath = app_path() . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR;
-
-        if (is_dir(self::$modulePath)) {
-            $folders = scandir(self::$modulePath);
-            foreach ($folders as $folder) {
-                if (is_dir(self::$modulePath . $folder) && $folder !== '.' && $folder !== '..' && ! preg_match('/-disabled/', $folder)) {
-                    self::$modules[] = $folder;
-                }
-            }
-        }
-
-        return self::$modules;
-    }
-
-    public static function loadRouteResources($folderResource)
-    {
-        // For each of the registered modules, include their routes and Views
-        $modules = self::getModules();
-
-        foreach ($modules as $module) {
-            if (file_exists(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . 'api.php')) {
-                $path = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . 'api.php';
-                Route::prefix('api')
-                     ->middleware('api')
-                     ->namespace("\App\Modules\\$module\Controllers")
-                     ->group($path);
-            }
-            if (file_exists(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . 'web.php')) {
-                $path = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . 'web.php';
-                Route::middleware('web')
-                     ->namespace("\App\Modules\\$module\Controllers")
-                     ->group($path);
-            }
-        }
-    }
-
     /**
      * Register the application services.
      *
@@ -83,6 +40,27 @@ class ModuleServiceProvider extends ServiceProvider
                 View::addNamespace($module, self::$modulePath . $module . DIRECTORY_SEPARATOR . 'Views');
             }
         }
+    }
+
+    public static function getModules()
+    {
+        if (self::$modules !== null) {
+            return self::$modules;
+        }
+        self::$modules = [];
+
+        self::$modulePath = app_path() . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR;
+
+        if (is_dir(self::$modulePath)) {
+            $folders = scandir(self::$modulePath);
+            foreach ($folders as $folder) {
+                if (is_dir(self::$modulePath . $folder) && $folder !== '.' && $folder !== '..' && ! preg_match('/-disabled/', $folder)) {
+                    self::$modules[] = $folder;
+                }
+            }
+        }
+
+        return self::$modules;
     }
 
     public static function loadResources($folderResource, $fileResource = null)
@@ -115,5 +93,39 @@ class ModuleServiceProvider extends ServiceProvider
                 }
             }
         }
+    }
+
+    public static function loadRouteResources($folderResource)
+    {
+        // For each of the registered modules, include their routes and Views
+        $modules         = self::getModules();
+        $routeDirectives = self::getRouteDirectives();
+
+        foreach ($modules as $module) {
+            foreach ($routeDirectives as $directive) {
+                if (file_exists(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $directive->file)) {
+                    $path = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $directive->file;
+                    if ($directive->prefix ?? false) {
+                        Route::prefix($directive->prefix)
+                             ->middleware($directive->middleware)
+                             ->namespace("\App\Modules\\$module\Controllers")
+                             ->group($path);
+                    } else {
+                        Route::middleware($directive->middleware)
+                             ->namespace("\App\Modules\\$module\Controllers")
+                             ->group($path);
+                    }
+                }
+            }
+        }
+    }
+
+    public static function getRouteDirectives()
+    {
+        return collect([
+            'api'   => (object)['middleware' => 'api', 'file' => 'api.php', 'prefix' => 'api'],
+            'admin' => (object)['middleware' => 'admin', 'file' => 'admin.php'],
+            'web'   => (object)['middleware' => 'web', 'file' => 'web.php'],
+        ]);
     }
 }
