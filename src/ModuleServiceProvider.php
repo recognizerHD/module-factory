@@ -79,8 +79,8 @@ class ModuleServiceProvider extends ServiceProvider
         foreach ($modules as $module) {
             // Load the views
 
-            if (is_dir(self::$modulePath . $module . '/Views')) {
-                View::addNamespace($module, self::$modulePath . $module . '/Views');
+            if (is_dir(self::$modulePath . $module . DIRECTORY_SEPARATOR . 'Views')) {
+                View::addNamespace($module, self::$modulePath . $module . DIRECTORY_SEPARATOR . 'Views');
             }
         }
     }
@@ -95,20 +95,22 @@ class ModuleServiceProvider extends ServiceProvider
 
         foreach ($modules as $module) {
             if ($fileResource !== null) {
-                if (file_exists(app_path(self::$modulePath . $module . '/' . $folderResource . '/' . $fileResource))) {
-                    include app_path(self::$modulePath . $module . '/' . $folderResource . '/' . $fileResource);
+                $file = app_path(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $fileResource);
+                if (file_exists($file)) {
+                    include $file;
                 }
             } else {
-                if ( ! is_dir(app_path(self::$modulePath . $module . '/' . $folderResource . '/'))) {
+                $folder = app_path(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR);
+                if ( ! is_dir($folder)) {
                     continue;
                 }
-                $moduleFiles = scandir(app_path(self::$modulePath . $module . '/' . $folderResource . '/'));
+                $moduleFiles = scandir($folder);
                 foreach ($moduleFiles as $file) {
-                    if (is_dir(app_path(self::$modulePath . $module . '/' . $folderResource . '/' . $file))) {
+                    if (is_dir(app_path($folder . $file))) {
                         continue;
                     }
                     if ($file !== '.' && $file !== '..' && strpos($file, '-disabled') === false) {
-                        include app_path(self::$modulePath . $module . '/' . $folderResource . '/' . $file);
+                        include app_path($folder . $file);
                     }
                 }
             }
