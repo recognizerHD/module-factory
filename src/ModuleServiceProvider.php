@@ -16,7 +16,7 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
         // Boot Order.
         self::loadViews();
