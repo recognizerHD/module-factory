@@ -73,22 +73,22 @@ class ModuleServiceProvider extends ServiceProvider
 
         foreach ($modules as $module) {
             if ($fileResource !== null) {
-                $file = app_path(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $fileResource);
+                $file = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $fileResource;
                 if (file_exists($file)) {
                     include $file;
                 }
             } else {
-                $folder = app_path(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR);
+                $folder = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR;
                 if ( ! is_dir($folder)) {
                     continue;
                 }
                 $moduleFiles = scandir($folder);
                 foreach ($moduleFiles as $file) {
-                    if (is_dir(app_path($folder . $file))) {
+                    if (is_dir($folder . $file)) {
                         continue;
                     }
                     if ($file !== '.' && $file !== '..' && strpos($file, '-disabled') === false) {
-                        include app_path($folder . $file);
+                        include $folder . $file;
                     }
                 }
             }
