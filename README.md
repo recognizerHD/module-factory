@@ -40,3 +40,7 @@ app
                 list.blade.php
 ``` 
 
+In the above example, ShortcodeController should have the following namespace:
+```
+namespace App\Modules\PartialComponent\Controllers;
+```
