@@ -75,7 +75,7 @@ class ModuleServiceProvider extends ServiceProvider
             if ($fileResource !== null) {
                 $file = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $fileResource;
                 if (file_exists($file)) {
-                    include $file;
+                    include_once $file;
                 }
             } else {
                 $folder = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR;
@@ -88,7 +88,7 @@ class ModuleServiceProvider extends ServiceProvider
                         continue;
                     }
                     if ($file !== '.' && $file !== '..' && strpos($file, '-disabled') === false) {
-                        include $folder . $file;
+                        include_once $folder . $file;
                     }
                 }
             }
