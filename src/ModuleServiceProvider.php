@@ -102,14 +102,16 @@ class ModuleServiceProvider extends ServiceProvider
         $routeDirectives = self::getRouteDirectives();
 
         foreach ($modules as $module) {
-            foreach ($routeDirectives as $directive) {
-                if (file_exists(self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $directive->file)) {
-                    $path = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $directive->file;
+            foreach ($routeDirectives as $type => $directive) {
+                $path = self::$modulePath . $module . DIRECTORY_SEPARATOR . $folderResource . DIRECTORY_SEPARATOR . $directive->file;
+                if (file_exists($path)) {
                     if ($directive->prefix ?? false) {
                         Route::prefix($directive->prefix)
                              ->middleware($directive->middleware)
                              ->namespace("\App\Modules\\$module\Controllers")
                              ->group($path);
+                    } elseif ($type == 'console') {
+                        require $path;
                     } else {
                         Route::middleware($directive->middleware)
                              ->namespace("\App\Modules\\$module\Controllers")
@@ -123,9 +125,10 @@ class ModuleServiceProvider extends ServiceProvider
     public static function getRouteDirectives()
     {
         return collect([
-            'api'   => (object)['middleware' => 'api', 'file' => 'api.php', 'prefix' => 'api'],
-            'admin' => (object)['middleware' => 'admin', 'file' => 'admin.php'],
-            'web'   => (object)['middleware' => 'web', 'file' => 'web.php'],
+            'api'     => (object)['middleware' => 'api', 'file' => 'api.php', 'prefix' => 'api'],
+            'admin'   => (object)['middleware' => 'admin', 'file' => 'admin.php'],
+            'web'     => (object)['middleware' => 'web', 'file' => 'web.php'],
+            'console' => (object)['file' => 'console.php'],
         ]);
     }
 }
