@@ -1,5 +1,9 @@
 # Changelog
 
+## 2021-10-19: v1.2.1
+#### Changed
+- updated vendor files
+
 ## 2020-09-02: v1.2.0
 #### Changed
 - updated vendor files
