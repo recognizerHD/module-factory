@@ -1,9 +1,15 @@
 # Changelog
 
-## 2021-01-19: v1.3.0
+## 2021-02-16: v1.3.1
 #### Changed
 - Updated vendor files
 - Now requires laravel ^8.0
+
+## 2021-01-19: v1.3.0
+#### Changed - REMOVED
+- Updated vendor files
+- Now requires laravel ^8.0
+- Put the requirement in the wrong spot, removing this version.
 
 ## 2021-10-19: v1.2.1
 #### Changed
