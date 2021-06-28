@@ -1,5 +1,12 @@
 # Changelog
 
+## 2021-06-27: v1.3.2
+#### Changed
+- Updated vendor files
+- Include php version 8.0
+#### IMPORTANT
+- This is likely the last update. Migration to nwidart/laravel-modules is suggested.
+
 ## 2021-02-16: v1.3.1
 #### Changed
 - Updated vendor files
