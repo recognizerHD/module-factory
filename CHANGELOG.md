@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023-02-03: v1.3.3
+#### Changed
+- Updated requirements to allow for greater versions of PHP and Laravel.
+
 ## 2021-06-27: v1.3.2
 #### Changed
 - Updated vendor files
