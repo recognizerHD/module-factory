@@ -108,13 +108,13 @@ class ModuleServiceProvider extends ServiceProvider
                     if ($directive->prefix ?? false) {
                         Route::prefix($directive->prefix)
                              ->middleware($directive->middleware)
-                             ->namespace("\App\Modules\\$module\Controllers")
+//                             ->namespace("\App\Modules\\$module\Controllers")
                              ->group($path);
                     } elseif ($type == 'console') {
                         require $path;
                     } else {
                         Route::middleware($directive->middleware)
-                             ->namespace("\App\Modules\\$module\Controllers")
+//                             ->namespace("\App\Modules\\$module\Controllers")
                              ->group($path);
                     }
                 }
