@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023-02-03: v1.3.5
+#### Changed
+- Updated PHP version
+
 ## 2023-02-03: v1.3.4
 #### Changed
 - Route namespaces removed. Adopt class based routes.
