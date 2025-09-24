@@ -1,5 +1,10 @@
 # Changelog
 
+## 2025-09-24: v1.3.6
+#### Changed
+- Updated PHP version
+- Fix: Don't load routes if routes are cached. 
+
 ## 2023-02-03: v1.3.5
 #### Changed
 - Updated PHP version
