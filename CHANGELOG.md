@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-04-27: v1.3.7
+#### Changed
+- Updated vendor files
+- 
 ## 2025-09-24: v1.3.6
 #### Changed
 - Updated PHP version
