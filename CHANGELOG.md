@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-21: v1.4.0
+#### Added
+- `minion-modules:cache` / `minion-modules:clear` commands. Caches the resolved app/Modules
+  manifest (Views namespaces, Config/Policies/Events-Listeners/Shortcodes file lists) to
+  `bootstrap/cache/minion_modules.php` so `boot()` skips scandir()/is_dir() across every
+  module on every request. Falls back to the previous live-scan behaviour when the cache
+  hasn't been built (e.g. local dev), so this is non-breaking.
+#### Why
+- On a 34-module app, uncached `boot()` was measured costing ~390ms per request (repeated
+  filesystem scans), the single largest contributor to Laravel's bootstrap time.
+
 ## 2026-04-27: v1.3.7
 #### Changed
 - Updated vendor files
