@@ -25,6 +25,17 @@ class ModuleServiceProvider extends ServiceProvider
                 ClearModulesCommand::class,
             ]);
         }
+
+        // Laravel 11+: hooks minion-modules:cache/:clear into `artisan optimize` /
+        // `artisan optimize:clear` alongside config/route/view/event caching. Guarded
+        // for Laravel 10 consumers, where ServiceProvider::optimizes() doesn't exist yet.
+        if (method_exists($this, 'optimizes')) {
+            $this->optimizes(
+                optimize: 'minion-modules:cache',
+                clear: 'minion-modules:clear',
+                key: 'minion-modules',
+            );
+        }
     }
 
     public static function getModulePath(): string
