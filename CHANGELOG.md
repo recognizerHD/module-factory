@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13: v1.5.0
+#### Changed
+- Updated vendor files
+
 ## 2026-07-21: v1.4.0
 #### Added
 - `minion-modules:cache` / `minion-modules:clear` commands. Caches the resolved app/Modules
